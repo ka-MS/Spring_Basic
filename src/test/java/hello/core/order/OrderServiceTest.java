@@ -1,19 +1,28 @@
 package hello.core.order;
 
+import hello.core.AppConfig;
 import hello.core.member.Grade;
 import hello.core.member.Member;
 import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class OrderServiceTest {
+    
+    MemberService memberService;
+    OrderService orderService;
 
-    MemberService memberService = new MemberServiceImpl();
-    OrderService orderService = new OrderServiceImpl();
-
+    @BeforeEach
+    public void beforeEach(){
+        AppConfig appConfig = new AppConfig();
+        memberService = appConfig.memberService();
+        orderService = appConfig.orderService();
+    } // 테스트 시작시마다 새롭게 객체생성 테스트들은 unstable 하기때문에 
+    // 테스트의 데이터주입등으로 오류발생하지 않도록 모든 테스트가 잘 수행되게 하기 위함
     @Test
     void createOrder() {
         // given

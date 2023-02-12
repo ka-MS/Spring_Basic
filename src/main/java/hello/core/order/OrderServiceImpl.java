@@ -2,16 +2,27 @@ package hello.core.order;
 
 import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
+import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
-    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+//    private final MemberRepository memberRepository = new MemoryMemberRepository();
+//    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+//    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
 
-//     OrderService 입장에서는 할인은 모르겠고 DiscountPolicy 너가 알아서 해줘
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }// 오더서비스는 어떤 저장장치를 사용할것인지, 어떤 할인정책을 사용할 것인지 전혀 모른다
+    // 설정 클래스에서 정해주는것 
+
+    //     OrderService 입장에서는 할인은 모르겠고 DiscountPolicy 너가 알아서 해줘
 //     할인에 대한 변경이 필요할 경우 할인쪽만 고쳐주면 됨 주문쪽을 고칠 필요 없음
 //     단일 책임 원칙이 잘 적용된것
 //     만약 discountPolicy 인터페이스가 없었더라면? 할인에 대한 내용이 오더에 있었을것이고
