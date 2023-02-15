@@ -15,12 +15,27 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
+    // @Bean memberService() 호출 -> new MemoryMemberRepository() 생성
+    // @Bean orderService() -> new MemoryMemberRepository()
+    // 두 객체가 new MemoryMemberRepository()인스턴스를 두번 생성하는데
+    // 이렇게 되면 싱글톤이 깨지는것 아닌가???
+    static int i = 0;
     @Bean
     public MemberService memberService(){
+        System.out.println("call AppConfig.memberService");
         return new MemberServiceImpl(memberRepository());
     } // 의존성 -> 구현체 주입 어떤 db를 사용할 것인지 주입해줌
+
+    public static MemberRepository memberRepository2 = new MemoryMemberRepository();
     @Bean
-    public static MemberRepository memberRepository() {
+    public static MemberRepository memberRepository3(){
+        return new MemoryMemberRepository();
+    }
+    @Bean
+    public MemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
+        i++;
+        System.out.println(i);
         return new MemoryMemberRepository();
     }
     // 중복된 객체 선언부를 제거하여 한 Repository의 변경이 있을 때 한 부분만 변경하면 된다
@@ -29,11 +44,12 @@ public class AppConfig {
 
     @Bean
     public OrderService orderService(){
+        System.out.println("call AppConfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }// 의존성 주입 어떤 할인 정책을 사용할 것인지, 어떤 저장소를 사용할 것인지 주입
 
     @Bean
-    public static DiscountPolicy discountPolicy() {
+    public DiscountPolicy discountPolicy() {
 //        return new RateDiscountPolicy();
         return new FixDiscountPolicy();
     }

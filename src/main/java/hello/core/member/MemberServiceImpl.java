@@ -1,5 +1,10 @@
 package hello.core.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+@Service
 public class MemberServiceImpl implements MemberService {
 
 //    private final MemberRepository memberRepository = new MemoryMemberRepository();
@@ -8,6 +13,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     // 멤버리포지토리라는 인터페이스만 있다 어떤 구현체를 넣어줄지는 선언되어있지 않음
 
+    @Autowired // 자동 주입! 마치 ac.getBean(MemberRepository.class)와 같은
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }// 생성자주입
@@ -21,5 +27,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member findMemberById(Long MemberId) {
         return memberRepository.findById(MemberId);
+    }
+
+    //test용도
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
     }
 }
