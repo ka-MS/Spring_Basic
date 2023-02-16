@@ -46,6 +46,8 @@ public class AppConfig {
     public OrderService orderService(){
         System.out.println("call AppConfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
+        // setter주입으로 바꾸면 위 코드 오류 생김 왜냐면 생성자가 없으니까!! 지워버렸으니까 매개변수를 받을수가 없음
+//        return null;
     }// 의존성 주입 어떤 할인 정책을 사용할 것인지, 어떤 저장소를 사용할 것인지 주입
 
     @Bean
